@@ -36,8 +36,7 @@ class UserController {
     @PostMapping(value = ["/login"])
     fun login(@RequestBody userDto: UserDto): ResponseEntity<Any> {
         return try {
-            userService.login(userDto)
-             ResponseEntity(HttpStatus.OK)
+            ResponseEntity(userService.login(userDto), HttpStatus.OK)
         } catch (ex: Exception) {
             ResponseEntity(ex.message, HttpStatus.INTERNAL_SERVER_ERROR)
         }
