@@ -50,9 +50,9 @@ class UserServiceImpl: IUserService {
         }
     }
 
-    override fun login(userDto: UserDto) {
+    override fun login(userDto: UserDto): UserDto {
         log.info("UserServiceImpl::login - INIT - userDto: [{}]", userDto)
-        try {
+        return try {
             val userName = userDto.userName.uppercase()
             val current = userRepository.findUserEntityByUserName(userName).orElseThrow {
                 throw Exception("Incorrect User: [${userName}]")
@@ -60,9 +60,11 @@ class UserServiceImpl: IUserService {
             if (current.userPassword != userDto.userPassword.md5()) {
                 throw Exception("Incorrect Password")
             }
+            current.userPassword = "*****************"
+            UserMapper.buildDtoFromEntity(current)
         } catch (ex: Exception) {
             log.error("UserServiceImpl::login - ERROR - error: [{}]", ex.message)
-            throw Exception("Error to update user - ERROR [${ex.message}]")
+            throw Exception("Error to Authenticate User - ERROR [${ex.message}]")
         }
     }
 

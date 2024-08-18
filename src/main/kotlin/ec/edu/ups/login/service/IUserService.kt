@@ -7,7 +7,7 @@ interface IUserService {
 
     fun update(userDto: UserDto)
 
-    fun login(userDto: UserDto)
+    fun login(userDto: UserDto): UserDto
 
     fun getAll(): List<UserDto>
 }
